@@ -65,4 +65,10 @@ sequenceDiagram
     Backend-->>Client: Return stats
 
 ```
+
+### system design HLD
+
+rough thoughts 
+
+![system design HLD](diagram.png)
 ---
