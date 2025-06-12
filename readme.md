@@ -18,7 +18,6 @@ Built for developers and marketers alike, redirIQ is fast, extensible, and analy
 - React + Vite
 - TypeScript
 - TailwindCSS
-- shadcn/ui
 
 ### Backend
 - Node.js + Express
@@ -26,6 +25,6 @@ Built for developers and marketers alike, redirIQ is fast, extensible, and analy
 - PostgreSQL (for core URL + performance scores)
 - Redis (for fast caching)
 - Kafka (event ingestion)
-- MongoDB or Elasticsearch (analytics storage)
+- MongoDB (analytics storage)
 
 ---
