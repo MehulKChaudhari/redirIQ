@@ -43,7 +43,7 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white text-gray-900 py-16 px-4">
+        <div className="bg-gradient-to-b from-gray-50 to-white text-gray-900 py-8 px-4">
             <Toaster position="top-center" />
             <div className="space-y-8 max-w-6xl mx-auto">
                 <div className="text-center">
