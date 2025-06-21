@@ -1,10 +1,6 @@
-import { Pool } from 'pg';
 import { createClient } from 'redis';
 import { config } from '../config';
-
-const pool = new Pool({
-  connectionString: config.database.url,
-});
+import prisma from './prisma';
 
 const redis = createClient({
   url: config.redis.url,
@@ -22,15 +18,17 @@ function generateSlug(length: number = 6): string {
 }
 
 export class UrlService {
-  async createShortUrl(originalUrl: string): Promise<string> {
+  async createShortUrl(url: string): Promise<string> {
     const slug = generateSlug();
+    
+    await prisma.url.create({
+      data: {
+        slug,
+        url,
+      },
+    });
 
-    await pool.query(
-      'INSERT INTO urls (slug, original_url) VALUES ($1, $2)',
-      [slug, originalUrl]
-    );
-
-    await redis.set(`slug:${slug}`, originalUrl);
+    await redis.set(`slug:${slug}`, url);
 
     return slug;
   }
@@ -39,16 +37,15 @@ export class UrlService {
     const cachedUrl = await redis.get(`slug:${slug}`);
     if (cachedUrl) return cachedUrl;
 
-    const result = await pool.query(
-      'SELECT original_url FROM urls WHERE slug = $1',
-      [slug]
-    );
+    const urlData = await prisma.url.findUnique({
+      where: { slug },
+    });
 
-    const originalUrl = result.rows[0]?.original_url;
-    if (originalUrl) {
-      await redis.set(`slug:${slug}`, originalUrl);
+    if (urlData?.url) {
+      await redis.set(`slug:${slug}`, urlData.url);
+      return urlData.url;
     }
 
-    return originalUrl || null;
+    return null;
   }
 } 
