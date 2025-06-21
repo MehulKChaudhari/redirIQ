@@ -1,9 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "URL shortener API with Express.js and TypeScript",
+  "main": "dist/server.js",
   "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,8 +14,11 @@
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.9",
     "@types/node": "^24.0.1",
+    "@types/pg": "^8.11.2",
     "dotenv": "^16.5.0",
     "eslint": "^9.28.0",
     "nodemon": "^3.1.10",
@@ -21,6 +27,12 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.0.6",
+    "pg": "^8.11.3",
+    "redis": "^4.6.13"
   }
 }
