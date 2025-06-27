@@ -23,4 +23,4 @@ export const redirectToOriginal = async (req: Request, res: Response): Promise<v
   } catch (error) {
     res.status(500).json({ error: 'Failed to redirect' });
   }
-};
+}; 

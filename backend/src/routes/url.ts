@@ -7,4 +7,4 @@ const router = Router();
 router.post('/shorten', validateUrl, shortenUrl);
 router.get('/:slug', redirectToOriginal);
 
-export default router;
+export default router; 
