@@ -11,20 +11,25 @@ const PORT = config.get<number>('port');
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`🚀 Server is running on port ${PORT}`);
 });
 
 process.on('SIGTERM', () => {
+  // eslint-disable-next-line no-console
   console.log('SIGTERM received. Shutting down gracefully...');
   server.close(() => {
+    // eslint-disable-next-line no-console
     console.log('Server closed');
     process.exit(0);
   });
 });
 
 process.on('SIGINT', () => {
+  // eslint-disable-next-line no-console
   console.log('SIGINT received. Shutting down gracefully...');
   server.close(() => {
+    // eslint-disable-next-line no-console
     console.log('Server closed');
     process.exit(0);
   });

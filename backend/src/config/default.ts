@@ -3,10 +3,10 @@ export default {
   nodeEnv: 'development',
 
   database: {
-    url: 'postgresql://postgres:postgres@localhost:5432/url_shortener'
+    url: 'postgresql://postgres:postgres@localhost:5432/redirIQ',
   },
 
   redis: {
-    url: 'redis://localhost:6379'
-  }
-}; 
+    url: 'redis://localhost:6379',
+  },
+};
