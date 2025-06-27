@@ -2,8 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "URL shortener API with Express.js and TypeScript",
-  "main": "dist/server.js",
-  "type": "module",
+  "main": "server.ts",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",

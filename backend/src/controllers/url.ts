@@ -1,9 +1,13 @@
 import { Request, Response } from 'express';
-import { UrlService } from '../services/url';
+import urlService from '../services/url';
 
-const urlService = new UrlService();
-
-export const shortenUrl = async (req: Request, res: Response): Promise<void> => {
+/**
+ * Takes a long URL and returns a shortened version
+ * @param {Request} req - Express request object containing URL in the body
+ * @param {Response} res - Express response object
+ * @returns {Promise<void>} Returns a JSON response with the generated slug
+ */
+const shortenUrl = async (req: Request, res: Response): Promise<void> => {
   try {
     const slug = await urlService.createShortUrl(req.body.URL);
     res.json({ slug });
@@ -12,7 +16,13 @@ export const shortenUrl = async (req: Request, res: Response): Promise<void> => 
   }
 };
 
-export const redirectToOriginal = async (req: Request, res: Response): Promise<void> => {
+/**
+ * Sends user to their original URL when they visit a short link
+ * @param {Request} req - Express request object containing slug in params
+ * @param {Response} res - Express response object
+ * @returns {Promise<void>} Redirects to the original URL or returns error response
+ */
+const redirectToOriginal = async (req: Request, res: Response): Promise<void> => {
   try {
     const originalUrl = await urlService.getOriginalUrl(req.params.slug);
     if (!originalUrl) {
@@ -23,4 +33,9 @@ export const redirectToOriginal = async (req: Request, res: Response): Promise<v
   } catch (error) {
     res.status(500).json({ error: 'Failed to redirect' });
   }
-}; 
+};
+
+export default {
+  shortenUrl,
+  redirectToOriginal,
+};

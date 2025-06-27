@@ -1,12 +1,5 @@
-import { createClient } from 'redis';
-import { config } from '../config';
 import prisma from './prisma';
-
-const redis = createClient({
-  url: config.redis.url,
-});
-
-redis.connect().catch(console.error);
+import redisService from './redis';
 
 function generateSlug(length: number = 6): string {
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -17,35 +10,44 @@ function generateSlug(length: number = 6): string {
   return result;
 }
 
-export class UrlService {
-  async createShortUrl(url: string): Promise<string> {
-    const slug = generateSlug();
-    
-    await prisma.url.create({
-      data: {
-        slug,
-        url,
-      },
-    });
+/**
+ * Creates short URL
+ * @param {string} url - Original URL
+ * @returns {Promise<string>} Short code
+ */
+async function createShortUrl(url: string): Promise<string> {
+  const slug = generateSlug();
 
-    await redis.set(`slug:${slug}`, url);
+  await prisma.url.create({
+    data: { slug, url },
+  });
 
-    return slug;
+  await redisService.setUrl(slug, url);
+  return slug;
+}
+
+/**
+ * Gets original URL
+ * @param {string} slug - Short code
+ * @returns {Promise<string | null>} Original URL
+ */
+async function getOriginalUrl(slug: string): Promise<string | null> {
+  const cachedUrl = await redisService.getUrl(slug);
+  if (cachedUrl) return cachedUrl;
+
+  const urlData = await prisma.url.findUnique({
+    where: { slug },
+  });
+
+  if (urlData?.url) {
+    await redisService.setUrl(slug, urlData.url);
+    return urlData.url;
   }
 
-  async getOriginalUrl(slug: string): Promise<string | null> {
-    const cachedUrl = await redis.get(`slug:${slug}`);
-    if (cachedUrl) return cachedUrl;
+  return null;
+}
 
-    const urlData = await prisma.url.findUnique({
-      where: { slug },
-    });
-
-    if (urlData?.url) {
-      await redis.set(`slug:${slug}`, urlData.url);
-      return urlData.url;
-    }
-
-    return null;
-  }
-} 
+export default {
+  createShortUrl,
+  getOriginalUrl,
+};

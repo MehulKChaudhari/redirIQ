@@ -1,12 +1,18 @@
-function getErrorDetails(error: any) {
+import { ValidationError } from 'joi';
+
+interface ErrorDetail {
+  label: string;
+  message: string;
+}
+
+function getErrorDetails(error: ValidationError): ErrorDetail[] {
   const { details } = error;
-  const extractedErrors = details.map((err: any) => ({
-    label: err.context.label,
-    message: err.message
+  return details.map(err => ({
+    label: err.context?.label || '',
+    message: err.message,
   }));
-  return extractedErrors;
 }
 
 export default {
   getErrorDetails,
-}; 
+};

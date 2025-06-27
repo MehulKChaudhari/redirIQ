@@ -1,23 +1,33 @@
 import { createClient } from 'redis';
-import { config } from '../config';
+import config from 'config';
 
-export class RedisService {
-  private client;
+const client = createClient({
+  url: config.get<string>('redis.url'),
+});
 
-  constructor() {
-    this.client = createClient({
-      url: config.redis.url,
-    });
+client.on('error', err => console.error('Redis Client Error', err));
+client.connect().catch(console.error);
 
-    this.client.on('error', (err) => console.error('Redis Client Error', err));
-    this.client.connect();
-  }
+/**
+ * Caches URL
+ * @param {string} slug - Short code
+ * @param {string} originalUrl - Original URL
+ * @returns {Promise<void>}
+ */
+async function setUrl(slug: string, originalUrl: string): Promise<void> {
+  await client.set(`slug:${slug}`, originalUrl);
+}
 
-  async setUrl(slug: string, originalUrl: string): Promise<void> {
-    await this.client.set(`slug:${slug}`, originalUrl);
-  }
+/**
+ * Gets cached URL
+ * @param {string} slug - Short code
+ * @returns {Promise<string | null>} Original URL
+ */
+async function getUrl(slug: string): Promise<string | null> {
+  return await client.get(`slug:${slug}`);
+}
 
-  async getUrl(slug: string): Promise<string | null> {
-    return await this.client.get(`slug:${slug}`);
-  }
-} 
+export default {
+  setUrl,
+  getUrl,
+};

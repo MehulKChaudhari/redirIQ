@@ -8,8 +8,8 @@ import urlRoutes from './routes/url';
 const app: Express = express();
 
 app.use(helmet());
-app.use(morgan('dev')); 
-app.use(express.json()); 
+app.use(morgan('dev'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/url', urlRoutes);
