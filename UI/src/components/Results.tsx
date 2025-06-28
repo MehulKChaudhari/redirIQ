@@ -1,3 +1,5 @@
+import { LuCopy, LuExternalLink } from 'react-icons/lu';
+
 interface ResultsProps {
   originalUrl: string;
   shortenedUrl: string;
@@ -41,15 +43,27 @@ export const Results: React.FC<ResultsProps> = ({
           </div>
           
           <div className="p-4 bg-gradient-to-r from-indigo-50 via-purple-50 to-blue-50 rounded-2xl border border-indigo-200/50 ring-1 ring-indigo-100/50">
-            <p className="text-sm font-semibold text-indigo-700 mb-2">Shortened URL:</p>
-            <div className="flex items-center justify-between space-x-4">
-              <p className="text-indigo-800 font-mono text-lg flex-1">{shortenedUrl}</p>
-              <button
-                onClick={onCopy}
-                className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-800 text-white px-6 py-2 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-indigo-500/25 transform hover:scale-105 active:scale-95 ring-1 ring-white/20"
-              >
-                Copy
-              </button>
+            <p className="text-sm font-semibold text-indigo-700 mb-2">Shortened URL</p>
+            <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4">
+              <p className="text-indigo-800 font-mono text-sm md:text-lg flex-1 break-all transition-colors duration-300 selection:bg-indigo-100">{shortenedUrl}</p>
+              <div className="flex gap-2 shrink-0">
+                <a
+                  href={shortenedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 hover:from-emerald-700 hover:via-teal-700 hover:to-cyan-800 text-white p-2 md:p-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-emerald-500/25 hover:scale-105 active:scale-95 ring-1 ring-white/20"
+                  title="Open link in new tab"
+                >
+                  <LuExternalLink className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />
+                </a>
+                <button
+                  onClick={onCopy}
+                  className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-800 text-white p-2 md:p-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-indigo-500/25 hover:scale-105 active:scale-95 ring-1 ring-white/20"
+                  title="Copy to clipboard"
+                >
+                  <LuCopy className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

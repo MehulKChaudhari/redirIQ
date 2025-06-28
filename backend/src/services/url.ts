@@ -38,7 +38,7 @@ async function getOriginalUrl(slug: string): Promise<string | null> {
   const urlData = await prisma.url.findUnique({
     where: { slug },
   });
-
+  
   if (urlData?.url) {
     await redisService.setUrl(slug, urlData.url);
     return urlData.url;
