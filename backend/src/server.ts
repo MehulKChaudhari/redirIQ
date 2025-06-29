@@ -6,31 +6,27 @@ process.env.NODE_CONFIG_DIR = `${__dirname}/config`;
 
 import config from 'config';
 import app from './app';
+import { logger } from './utils/logger';
 
 const PORT = config.get<number>('port');
 const server = http.createServer(app);
 
 server.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`🚀 Server is running on port ${PORT}`);
+  logger.info(`🚀 Server is running on port ${PORT}`);
 });
 
 process.on('SIGTERM', () => {
-  // eslint-disable-next-line no-console
-  console.log('SIGTERM received. Shutting down gracefully...');
+  logger.info('SIGTERM received. Shutting down gracefully...');
   server.close(() => {
-    // eslint-disable-next-line no-console
-    console.log('Server closed');
+    logger.info('Server closed');
     process.exit(0);
   });
 });
 
 process.on('SIGINT', () => {
-  // eslint-disable-next-line no-console
-  console.log('SIGINT received. Shutting down gracefully...');
+  logger.info('SIGINT received. Shutting down gracefully...');
   server.close(() => {
-    // eslint-disable-next-line no-console
-    console.log('Server closed');
+    logger.info('Server closed');
     process.exit(0);
   });
 });

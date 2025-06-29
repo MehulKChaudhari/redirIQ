@@ -1,22 +1,28 @@
-import { ErrorRequestHandler } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { logger } from '../utils/logger';
+import config from 'config';
 
-class AppError extends Error {
+export class AppError extends Error {
   constructor(
-    public statusCode: number,
-    message: string
+    public message: string,
+    public statusCode: number = 500,
+    public status: string = 'error'
   ) {
     super(message);
-    Object.setPrototypeOf(this, AppError.prototype);
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  if (err instanceof AppError) {
-    res.status(err.statusCode).json({ error: err.message });
-  } else {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
+export const errorHandler = (err: AppError, req: Request, res: Response, next: NextFunction) => {
+  logger.error({
+    msg: err.message,
+    url: req.url,
+    status: err.statusCode,
+  });
 
-export { AppError, errorHandler };
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+    ...(config.get('nodeEnv') === 'development' && { stack: err.stack }),
+  });
+};

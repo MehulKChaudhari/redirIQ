@@ -3,9 +3,13 @@ export default {
   nodeEnv: 'development',
 
   cors: {
-    origin: 'https://rediriq.mehul.wiki',
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      /^https:\/\/[a-zA-Z0-9-]+\.mehul\.wiki$/,
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    allowedHeaders: ['Origin','Content-Type', 'Accept'],
     credentials: true,
   },
 
