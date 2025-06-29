@@ -8,7 +8,7 @@ const Home = () => {
       <div className="space-y-8 max-w-6xl mx-auto">
         <div className="text-center">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-30 h-30 rounded-2xl flex items-center justify-center">
+            <div className="w-60 h-30 rounded-2xl flex items-center justify-center">
               <img
                 src="/assets/redirIQ.png"
                 alt="RedirIQ"
