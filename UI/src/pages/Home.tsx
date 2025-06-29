@@ -8,17 +8,18 @@ const Home = () => {
       <div className="space-y-8 max-w-6xl mx-auto">
         <div className="text-center">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-60 h-30 rounded-2xl flex items-center justify-center">
+            <div className="w-96 h-48 rounded-2xl flex items-center justify-center">
               <img
                 src="/assets/redirIQ.png"
                 alt="RedirIQ"
                 aria-label="RedirIQ - Smart URL Shortener"
                 role="img"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            A modern, performance-aware URL shortener that offers secure, fast redirects combined with detailed analytics and performance scoring
+            A modern, performance-aware URL shortener that offers secure, fast redirects combined with detailed analytics and performance scoring.
           </p>
         </div>
 

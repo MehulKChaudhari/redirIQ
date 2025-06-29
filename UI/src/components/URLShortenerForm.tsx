@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useUrlShortener } from '../hooks/useUrlShortener';
 import { Results } from './Results';
+import { env } from '../config/env';
 
 export const URLShortenerForm = () => {
   const [url, setUrl] = useState('');
@@ -46,7 +47,7 @@ export const URLShortenerForm = () => {
 
   const handleCopy = () => {
     try {
-      navigator.clipboard.writeText(`http://localhost:3000/${shortUrl}`);
+      navigator.clipboard.writeText(`${env.FRONTEND_URL}/${shortUrl}`);
       toast.success("URL copied to clipboard!", {
         duration: 2000,
         icon: '📋'
@@ -115,7 +116,7 @@ export const URLShortenerForm = () => {
       {shortUrl && (
         <Results
           originalUrl={url}
-          shortenedUrl={`http://localhost:3000/${shortUrl}`}
+          shortenedUrl={`${env.FRONTEND_URL}/${shortUrl}`}
           onCopy={handleCopy}
           onReset={handleReset}
         />
