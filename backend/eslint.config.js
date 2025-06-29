@@ -22,17 +22,12 @@ export default [
             prettier
         },
         rules: {
-            // Basic TypeScript rules
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-unused-vars': ['error', { 
                 'argsIgnorePattern': '^_|next',
                 'varsIgnorePattern': '^_'
             }],
-
-            // Formatting
             'prettier/prettier': 'error',
-            
-            // Common preferences
             'no-console': ['error', { allow: ['error', 'warn', 'info'] }],
             'no-debugger': 'error',
             'no-duplicate-imports': 'error'
