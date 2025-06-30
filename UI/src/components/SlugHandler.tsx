@@ -10,17 +10,20 @@ export const SlugHandler = () => {
   useEffect(() => {
     if (!slug) return;
 
-    axios.head(`${env.API_BASE_URL}/${slug}`)
-      .then(() => {
-        window.location.href = `${env.API_BASE_URL}/${slug}`;
-      })
-      .catch((error) => {
-        if (error.response?.status === 404) {
+    const checkUrl = async () => {
+      try {
+        await axios.head(`${env.API_BASE_URL}/${slug}`);
+        window.location.replace(`${env.API_BASE_URL}/${slug}`);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
           setNotFound(true);
         } else {
-          window.location.href = `${env.API_BASE_URL}/${slug}`;
+          window.location.replace(`${env.API_BASE_URL}/${slug}`);
         }
-      });
+      }
+    };
+
+    checkUrl();
   }, [slug]);
 
   if (notFound) {
@@ -56,12 +59,8 @@ export const SlugHandler = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-50">
-      <div className="text-center p-8 bg-white rounded-3xl shadow-xl border border-gray-100">
-        <div className="animate-spin mb-4 w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto"></div>
-        <h1 className="text-xl font-semibold text-gray-800 mb-2">Redirecting...</h1>
-        <p className="text-gray-600">Please wait while we redirect you to your destination.</p>
-      </div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="animate-spin w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full"></div>
     </div>
   );
 }; 
