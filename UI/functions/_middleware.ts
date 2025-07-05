@@ -9,17 +9,27 @@ export const onRequest = async (context: any) => {
 
         const path = url.pathname.slice(1).split('/')[0];
 
-        if (path && !reservedRoutes.includes(path)) {
-            return await fetch(backendUrl + url.pathname, {
-                method: context.request.method,
-                headers: context.request.headers,
-                body: context.request.body,
-                redirect: 'manual',
-            });
+        if (!path || reservedRoutes.includes(path)) {
+            return await context.next();
+        }
+
+        const response = await fetch(backendUrl + url.pathname, {
+            method: context.request.method,
+            headers: context.request.headers,
+            body: context.request.body,
+            redirect: 'manual',
+        });
+
+        if (response.status === 301 || response.status === 302) {
+            const location = response.headers.get('Location');
+            if (location) {
+                return Response.redirect(location, response.status);
+            }
         }
 
         return await context.next();
+
     } catch (error) {
-        return Response.redirect('/notfound', 302);
+        return await context.next();
     }
 };
