@@ -26,7 +26,7 @@ const redirectToOriginal = async (req: Request, res: Response): Promise<void> =>
   try {
     const originalUrl = await urlService.getOriginalUrl(req.params.slug);
     if (!originalUrl) {
-      res.status(404).json({ error: 'URL not found' });
+      res.status(404).end();
       return;
     }
     res.redirect(originalUrl);

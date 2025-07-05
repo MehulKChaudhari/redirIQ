@@ -10,20 +10,17 @@ export const SlugHandler = () => {
   useEffect(() => {
     if (!slug) return;
 
-    const checkUrl = async () => {
-      try {
-        await axios.head(`${env.API_BASE_URL}/${slug}`);
+    axios.head(`${env.API_BASE_URL}/${slug}`)
+      .then(() => {
         window.location.replace(`${env.API_BASE_URL}/${slug}`);
-      } catch (error) {
+      })
+      .catch((error) => {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
           setNotFound(true);
         } else {
           window.location.replace(`${env.API_BASE_URL}/${slug}`);
         }
-      }
-    };
-
-    checkUrl();
+      });
   }, [slug]);
 
   if (notFound) {
@@ -46,9 +43,9 @@ export const SlugHandler = () => {
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               The shortened URL you're looking for doesn't exist or has expired.
             </p>
-            <Link 
-              to="/" 
-              className="inline-block mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-700 text-white font-medium rounded-xl hover:from-indigo-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-indigo-500/25"
+            <Link
+              to="/"
+              className="inline-block mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 hover:from-indigo-700 hover:via-purple-700 hover:to-blue-800 text-white font-medium rounded-xl transition-all duration-300 shadow-lg hover:shadow-indigo-500/25 hover:scale-105 active:scale-95 ring-1 ring-white/20"
             >
               Back to Home
             </Link>
