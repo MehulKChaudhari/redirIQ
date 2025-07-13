@@ -9,7 +9,8 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
+    "postinstall": "prisma generate",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "format:check": "prettier --check \"src/**/*.{ts,js}\"",
     "lint": "eslint \"src/**/*.{ts,js}\"",
@@ -20,9 +21,12 @@
   "license": "ISC",
   "packageManager": "pnpm@10.8.1",
   "devDependencies": {
+    "@prisma/client": "^6.10.1",
+    "@types/bcrypt": "^5.0.2",
     "@types/config": "^3.3.5",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.0.1",
     "@types/pg": "^8.11.2",
@@ -40,13 +44,14 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@prisma/client": "^6.10.1",
     "@types/pino-http": "^5.8.4",
+    "bcrypt": "^6.0.0",
     "config": "^4.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^7.2.0",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "nanoid": "^5.0.6",
     "pg": "^8.11.3",

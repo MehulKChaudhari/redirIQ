@@ -14,4 +14,16 @@ model Url {
   createdAt  DateTime @default(now())
 
   @@map("urls")
-} 
+}
+
+model User {
+  userId    String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
