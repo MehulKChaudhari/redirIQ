@@ -23,8 +23,17 @@ export default {
 
   jwtToken: {
     access: {
-      privateKey: process.env.JWT_PRIVATE_KEY,
-      publicKey: process.env.JWT_PUBLIC_KEY,
+      privateKey:
+        '-----BEGIN EC PRIVATE KEY-----\n' +
+        'MHcCAQEEIBVjUDTD87Ol5kF+46J79/nrTRoupdX2KCULaei/cd39oAoGCCqGSM49\n' +
+        'AwEHoUQDQgAEeed9HVwikeLp/r1pCT8DC+YL2w85oiFra3HWhSVkx3FSaUg+BZJ0\n' +
+        'y9hbgKZ9Ycw1k6Ehm3Q+FgtqKJeKiIvzyQ==\n' +
+        '-----END EC PRIVATE KEY-----',
+      publicKey:
+        '-----BEGIN PUBLIC KEY-----\n' +
+        'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEeed9HVwikeLp/r1pCT8DC+YL2w85\n' +
+        'oiFra3HWhSVkx3FSaUg+BZJ0y9hbgKZ9Ycw1k6Ehm3Q+FgtqKJeKiIvzyQ==\n' +
+        '-----END PUBLIC KEY-----',
       signOptions: {
         issuer: 'rediriq',
         audience: process.env.APP_BASE_URL,
@@ -44,5 +53,20 @@ export default {
   },
   bcrypt: {
     salt: 12,
+  },
+
+  cookies: {
+    jwtToken: {
+      access: {
+        name: 'authToken',
+        options: {
+          domain: 'mehul.wiki',
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: 'strict',
+          secure: true,
+        },
+      },
+    },
   },
 };

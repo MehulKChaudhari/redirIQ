@@ -31,6 +31,26 @@ async function register(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function login(req: Request, res: Response, next: NextFunction) {
+  const schema = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  });
+
+  try {
+    await schema.validateAsync(req.body, { abortEarly: true });
+    next();
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const errrorDetails = joiHelper.getErrorDetails(error);
+      res.status(422).json({
+        errors: errrorDetails,
+      });
+    }
+  }
+}
+
 export default {
   register,
+  login,
 };
