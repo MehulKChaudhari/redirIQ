@@ -15,7 +15,7 @@ client.connect().catch(console.error);
  * @param {User} user - user data object
  * @returns {Promise<string>} A promise resolved with user id
  */
-async function createUser(user: User): Promise<void> {
+async function createUser(user: User): Promise<string> {
   const { email, password, firstName, lastName } = user;
   const userObj = await prisma.user.create({
     data: {
@@ -26,7 +26,7 @@ async function createUser(user: User): Promise<void> {
     },
   });
 
-  return userObj;
+  return userObj.userId;
 }
 
 export default {
